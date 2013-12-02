@@ -1,0 +1,95 @@
+#!/usr/bin/env ruby
+
+begin
+	require 'colorize'
+rescue LoadError
+	puts "Install 'colorize' gem. Execute 'gem install colorize'."
+end
+
+require 'optparse'
+require 'pty'
+
+class Curl
+	attr_reader :cmd, :options
+
+	class << self
+		def open(args, &block)
+			me = new args
+			me.run &block
+			me 
+		end
+	end
+
+	def initialize(args)
+		@options = parse args
+		@cmd     = build_cmd
+	end
+
+	def run(&block)
+		raise ArgumentError, "Missing block" unless block_given?
+		return if options.empty?
+
+		begin
+			PTY.spawn( cmd ) do |r, w, pid|
+				begin
+					r.each do |line|
+						yield line
+					end
+				rescue Errno::EIO # GNU/Linux raises EIO
+				end
+			end 
+		rescue PTY::ChildExited
+			p "The child process exited!" 
+		end
+	end
+
+private
+	def parse(args)
+		"".tap do |curl_options|
+			args.map { |arg| arg =~ /^-(.*)/ ? " #{arg}" : " '#{arg}'" }.each { |arg| curl_options << arg }
+		end
+	end
+
+	def build_cmd
+		"curl -vs #{@options} 2>&1"
+	end
+end
+
+
+class ColorFormatter
+	class << self
+		@@line_number = 0
+	
+		def format(line)
+			@@line_number += 1
+			output_line = line.chop
+
+			line_number_text = "##{@@line_number}"
+
+			if $stdout.tty?
+				if output_line =~ /^([*])(.*)/
+					output_line = output_line.colorize(:light_yellow)
+				elsif output_line =~ /^(>)(.*)/
+					output_line = output_line.colorize(:light_cyan)
+				elsif output_line =~ /^(<)(.*)/
+					output_line = output_line.colorize(:light_green)
+				else
+					output_line = output_line.colorize(:light_white)
+				end
+
+				line_number_text = line_number_text.colorize(:default)
+			end
+
+			[line_number_text, output_line].join("\t")
+		end
+	end
+end
+
+
+Curl.open ARGV do |line|
+	begin
+		$stdout.puts ColorFormatter.format(line)
+	rescue Errno::EPIPE
+		exit 74
+	end
+end
