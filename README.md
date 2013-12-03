@@ -1,6 +1,6 @@
 # ccurl
 
-`ccurl` is a command line utility, wrapper over standard `curl` command with some additional features:
+`ccurl` (aka Color cURL) is a command line utility, wrapper over standard `curl` command with some additional features:
 
 * line numbers
 * color output
