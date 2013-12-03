@@ -61,7 +61,11 @@ module Formatters
 			super
 
 			output = "< ".colorize(:light_green)
-			output << match_data[1].colorize(:magenta)#.underline
+			if match_data[1] == 'Content-Type'
+				output << match_data[1].colorize(:magenta).underline
+			else
+				output << match_data[1].colorize(:magenta)#.underline
+			end
 			output << ":".colorize(:default)
 			output << match_data[2].colorize(:light_white)
 			output
