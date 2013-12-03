@@ -61,7 +61,7 @@ module Formatters
 			super
 
 			output = "< ".colorize(:light_green)
-			output << match_data[1].colorize(:magenta).underline
+			output << match_data[1].colorize(:magenta)#.underline
 			output << ":".colorize(:default)
 			output << match_data[2].colorize(:light_white)
 			output
