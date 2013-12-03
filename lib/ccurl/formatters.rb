@@ -12,13 +12,13 @@ module Formatters
 			super
 
 			output = "> ".colorize(:light_cyan)
-			output << match_data[1].colorize(:red)
+			output << match_data[1].colorize(:light_blue)
 			output << " "
 			output << match_data[2].colorize(:light_white)
 			output << " "
-			output << match_data[3].colorize(:red)
-			output << "/".colorize(:light_white)
-			output << match_data[4].colorize(:red)			
+			output << match_data[3].colorize(:light_blue)
+			output << "/".colorize(:default)
+			output << match_data[4].colorize(:light_blue)			
 			output
 		end
 	end
@@ -30,7 +30,7 @@ module Formatters
 			super
 
 			output = "> ".colorize(:light_cyan)
-			output << match_data[1].colorize(:light_red)
+			output << match_data[1].colorize(:cyan).underline
 			output << ":".colorize(:default)
 			output << match_data[2].colorize(:light_white)
 			output
@@ -44,13 +44,13 @@ module Formatters
 			super
 
 			output = "< ".colorize(:light_green)
-			output << match_data[1].colorize(:light_red)
+			output << match_data[1].colorize(:light_blue)
 			output << "/".colorize(:default)
-			output << match_data[2].colorize(:light_white)
+			output << match_data[2].colorize(:light_blue)
 			output << " "
 			output << match_data[3].colorize(:light_green)
 			output << " "
-			output << match_data[4].colorize(:light_white)
+			output << match_data[4].colorize(:light_blue)
 			output
 		end
 	end
@@ -61,7 +61,7 @@ module Formatters
 			super
 
 			output = "< ".colorize(:light_green)
-			output << match_data[1].colorize(:light_red)
+			output << match_data[1].colorize(:magenta).underline
 			output << ":".colorize(:default)
 			output << match_data[2].colorize(:light_white)
 			output

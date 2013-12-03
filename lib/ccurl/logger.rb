@@ -56,6 +56,11 @@ private
 		 	end
 		end 
 
+		# intact
+		if output == line 
+			output = line.colorize(:light_white)
+		end
+
 		output
 	end
 
