@@ -4,6 +4,7 @@
 
 * line numbers
 * color output
+* HTTP 1.1 syntax highlighting
 
 ## Installation
 
@@ -12,6 +13,11 @@
 ## Usage
 
 Use it as a normal `curl` command line tool.
+
+## TODO:
+
+* color schemes
+* custom rc files
 
 ## Contributing
 
