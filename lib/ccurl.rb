@@ -1,7 +1,7 @@
 begin
-	require 'colorize'
+    require 'colorize'
 rescue LoadError
-	puts "Install 'colorize' gem. Execute 'gem install colorize'."
+    puts "Install 'colorize' gem. Execute 'gem install colorize'."
 end
 
 require 'pty'
